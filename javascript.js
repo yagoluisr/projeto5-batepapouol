@@ -1,7 +1,5 @@
-let nomeUsuario = [];
 let nome;
 let mensagens;
-let participantes;
 
 function Nome(){
     nome = prompt("Qual o seu lindo nome ?");
@@ -13,7 +11,7 @@ function Nome(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", obj);
     promise.then(carregarSala);
     promise.catch(alertaErro);
-    // nomeUsuario.push(obj);
+    
 }
 Nome();
 
@@ -25,6 +23,7 @@ function alertaErro(error) {
 
 function carregarSala(){
     buscarDados();
+    setInterval(buscarDados, 3000);
     setInterval(statusUsuario, 4000);
 }
 
@@ -46,24 +45,20 @@ function statusUsuario(){
 function buscarMensagens(){
     
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-    promise.then(popularMensagens);
-    // mensagens = promise.data;
-// console.log(mensagens);
-// console.log(promise.data);
+    promise.then(renderizarMensagens);
 }
 
+function reload(){
+    window.location.reload();
+}
 
-function popularMensagens(resposta){
+let ulChat;
 
-    if(resposta.status === 200){
-        console.log("Deuuu boooom");
-    }
+function renderizarMensagens(resposta){
     mensagens = resposta.data;
-    renderizarMensagens();
-}
-
-function renderizarMensagens(){
     let ulChat = document.querySelector("ul");
+    
+    ulChat.innerHTML = "";
     
     for(let i = 0; i < mensagens.length; i++){
         
@@ -82,13 +77,17 @@ function renderizarMensagens(){
             </li>
         `;
         }
+        if(mensagens[i].type === "private_message" && (mensagens[i].to === nome || mensagens[i].from === nome)){
+            
+            ulChat.innerHTML += `
+            <li class="mensagem reservadamente">
+                <p>${mensagens[i].time} - <span>${mensagens[i].from}</span> reservadamente para <span>${mensagens[i].to}</span> : ${mensagens[i].text}</p>
+            </li>
+        `;
+        }
     }
-    console.log("test");
+    scrollToBottom();
 }
-
-
-
-
 
 function enviarMensagem(){
     let text = document.querySelector("textarea").value;
@@ -100,45 +99,13 @@ function enviarMensagem(){
         type: "message" 
     }
 
-    const promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", msg);
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", msg);
 
-    promisse.then(buscarDados);
+    promise.then(buscarDados);
+    promise.catch(reload);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function buscarNomes(resposta){
-//     console.log(resposta.data);
-//     nomesServidor = resposta.data;
-// }
-
-// function verificarNome(){
-
-//     for(let i = 0; i < nomesServidor.length; i++){
-//         if(nomeUsuario[0] === nomesServidor[i]){
-//             console.log(i);
-
-//             return true;
-//         }
-//            return false;
-//     }
-// }
-
-
-// function ponto(){
-//     while(verificarNome){
-//         prompt("Nome de usuário já está online, escolha outro!")
-//         Nome();
-//     }
-// }
+function scrollToBottom() {
+    let ultimaMsg = document.querySelector(".chat").lastElementChild;
+    ultimaMsg.scrollIntoView();
+  }

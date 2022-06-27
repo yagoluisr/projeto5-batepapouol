@@ -34,10 +34,10 @@ body {
 .conteudo {
     width: 96%;
     margin-top: 105px;
+    margin-bottom: 90px;
 }
 
 .chat {
-    height: 500px;
     width: 100%;
     margin-top: 26px;
 }
@@ -71,13 +71,16 @@ span {
     background-color: #ffffff;
 }
 
-input{
-    height: 30px;
+textarea {
+    height: 50px;
     font-size: 18px;
     font-weight: 400;
     font-style: italic;
     margin-left: 18px;
     color: #000000;
+    border: none;
+    resize: none;
+    flex-grow: 1;
 }
 
 .barra-inferior ion-icon{
