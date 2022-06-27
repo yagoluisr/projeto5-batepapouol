@@ -90,8 +90,9 @@ function renderizarMensagens(resposta){
 }
 
 function enviarMensagem(){
+
     let text = document.querySelector("textarea").value;
-    
+    document.querySelector("textarea").value = "";
     const msg = {
         from: nome,
         to: "Todos",
@@ -103,6 +104,8 @@ function enviarMensagem(){
 
     promise.then(buscarDados);
     promise.catch(reload);
+
+    
 }
 
 function scrollToBottom() {
