@@ -3,6 +3,7 @@
 body {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    background-color: #F3F3F3;
 }
 
 .topo {
@@ -31,26 +32,25 @@ body {
 }
 
 .conteudo {
-    width: 100%;
+    width: 96%;
     margin-top: 105px;
-    
 }
 
 .chat {
     height: 500px;
     width: 100%;
     margin-top: 26px;
-    
 }
 
 .mensagem {
-    height: 40px;
+    min-height: 40px;
     width: 100%;
     display: flex;
     align-items: center;
     margin-bottom: 4px;
     border-radius: 2px;
-    padding: 0 8px;
+    padding: 3px 8px;
+    word-break: break-word;
 }
 
 span {
@@ -78,7 +78,6 @@ input{
     font-style: italic;
     margin-left: 18px;
     color: #000000;
-
 }
 
 .barra-inferior ion-icon{
